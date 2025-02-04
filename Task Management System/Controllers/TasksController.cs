@@ -12,6 +12,11 @@ namespace Task_Management_System.Controllers
         {
             _tasksService = tasksService;
         }
+        public async Task<IActionResult> AllTasks()
+        {
+            var alltasks = await _tasksService.GetAllTasksWithStatus();
+            return Json(new { data = alltasks });
+        }
         public async Task<IActionResult> Index()
         {
             var alltasks = await _tasksService.GetAllTasksWithStatus();
