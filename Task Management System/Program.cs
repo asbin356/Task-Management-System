@@ -1,3 +1,5 @@
+using Task_Management_System.Data;
+
 namespace Task_Management_System
 {
     public class Program
@@ -5,6 +7,9 @@ namespace Task_Management_System
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddScoped<DapperContext>(provider => new DapperContext(connectionString));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
