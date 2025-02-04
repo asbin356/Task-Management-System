@@ -1,4 +1,6 @@
 using Task_Management_System.Data;
+using Task_Management_System.Services;
+using Task_Management_System.Services.Implementations;
 
 namespace Task_Management_System
 {
@@ -10,6 +12,7 @@ namespace Task_Management_System
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddScoped<DapperContext>(provider => new DapperContext(connectionString));
+            builder.Services.AddScoped<ITasksService, TasksService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
