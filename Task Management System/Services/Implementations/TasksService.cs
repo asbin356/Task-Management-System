@@ -50,10 +50,24 @@ namespace Task_Management_System.Services.Implementations
 
         public async Task<TasksWithStatus> GetTasksByIdAsync(int id)
         {
-            using (var connection = _context.CreateConnection())
+            try
             {
-                return await connection.QuerySingleOrDefaultAsync("spGetTasksById", new { Id = id },
-                    commandType: CommandType.StoredProcedure);
+                using (var connection = _context.CreateConnection())
+                {
+                    var result = await connection.QuerySingleOrDefaultAsync<TasksWithStatus>("spGetTasksById", new { Id = id },
+                        commandType: CommandType.StoredProcedure);
+                    if (result == null)
+                    {
+                        throw new Exception($"Task with Id {id} not found!");
+                    }
+                    return result;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
