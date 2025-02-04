@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Task_Management_System.Models;
 using Task_Management_System.Services;
 
 namespace Task_Management_System.Controllers
@@ -11,32 +12,43 @@ namespace Task_Management_System.Controllers
         {
             _tasksService = tasksService;
         }
-        public async Task<IActionResult> AllTasks()
+        public async Task<IActionResult> Index()
         {
             var alltasks = await _tasksService.GetAllTasksWithStatus();
-            return Json(new { data = alltasks });
+            return View(alltasks);
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
-        public IActionResult CreateUpdate(int id)
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateUpdate(int id)
-        { 
+        public async Task<IActionResult> Create(TasksWithStatus tasksWithStatus)
+        {
+            await _tasksService.AddTasksAsync(tasksWithStatus);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var alltasks = await _tasksService.GetTasksByIdAsync(id);
+            return View(alltasks);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(TasksWithStatus tasksWithStatus)
+        {
+            await _tasksService.UpdateTasksAsync(tasksWithStatus);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _tasksService.DeleteTasksAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }
