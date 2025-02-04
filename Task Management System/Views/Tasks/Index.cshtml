@@ -1,65 +1,27 @@
-﻿@model IEnumerable<Task_Management_System.Models.TasksWithStatus>
+﻿<div class="container p-4">
+	<div class="row p-3">
+		<div class="col-6">
+			<h2 class="text-primary">List of Tasks</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a class="btn btn-primary" asp-action="CreateUpdate" asp-controller="Tasks">Create New Task</a>
+		</div>
+	</div>
+</div>
 
-@{
-	ViewData["Title"] = "Index";
-}
 
-<h1>Tasks</h1>
-
-<p>
-	<a asp-action="Create" class="btn btn-info">Add New Task</a>
-</p>
-<table class="table">
+<table id="tasksTable" class="display" style="width:100%">
 	<thead>
 		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Id)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Title)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Description)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Status)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.CreatedAt)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.DueDate)
-			</th>
-			<th></th>
+			<th>Id</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>CreatedAt</th>
+			<th>DueDate</th>
 		</tr>
 	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Id)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Title)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Description)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Status)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.CreatedAt)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.DueDate)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
-				</td>
-			</tr>
-		}
-	</tbody>
 </table>
+@section Scripts {
+	<script src="~/js/tasks.js"></script>
+}

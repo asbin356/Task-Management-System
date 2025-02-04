@@ -13,6 +13,7 @@ namespace Task_Management_System
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddScoped<DapperContext>(provider => new DapperContext(connectionString));
             builder.Services.AddScoped<ITasksService, TasksService>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
