@@ -11,8 +11,42 @@ namespace Task_Management_System.Controllers
         {
             _tasksService = tasksService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var alltasks = await _tasksService.GetAllTasksWithStatus();
+            var pendingtasks = alltasks.Select(x => x.Status == "Pending").ToList();
+            var inProgresstasks = alltasks.Select(x => x.Status == "In Progress").ToList();
+            var completedtasks = alltasks.Select(x => x.Status == "Completed").ToList();
+            int pendingtaskCount = 0;
+            int inProgresstaskCount = 0;
+            int completedtaskCount = 0;
+
+            foreach (var item in pendingtasks)
+            {
+                if (item == true)
+                {
+                    pendingtaskCount++;
+                }
+            }
+            foreach (var item in inProgresstasks)
+            {
+                if (item == true)
+                {
+                    inProgresstaskCount++;
+                }
+            }
+            foreach (var item in completedtasks)
+            {
+                if (item == true)
+                {
+                    completedtaskCount++;
+                }
+            }
+            var totalTasks = pendingtaskCount + inProgresstaskCount + completedtaskCount;
+            ViewBag.totaltasksPercent = "100%";
+            ViewBag.pendingtasksPercent = $"{(float)pendingtaskCount / totalTasks * 100}%";
+            ViewBag.inProgresstasksPercent = $"{(float)inProgresstaskCount / totalTasks * 100}%"; ;
+            ViewBag.completedtasksPercent = $"{(float)completedtaskCount / totalTasks * 100}%"; ;
             return View();
         }
         public async Task<IActionResult> AllStatusTasks()
@@ -46,7 +80,8 @@ namespace Task_Management_System.Controllers
                     completedtaskCount++;
                 }
             }
-            return Json(new { pendingtaskCount, inProgresstaskCount, completedtaskCount});
+
+            return Json(new { pendingtaskCount, inProgresstaskCount, completedtaskCount });
         }
     }
 }
