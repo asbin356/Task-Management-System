@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Task_Management_System.Models;
+using Task_Management_System.Services;
 
 namespace Task_Management_System.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITasksService _tasksService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITasksService tasksService)
         {
             _logger = logger;
+            _tasksService = tasksService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var alltasks = await _tasksService.GetAllTasksWithStatus();
+            return View(alltasks);
         }
 
         public IActionResult Privacy()
