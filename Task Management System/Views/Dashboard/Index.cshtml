@@ -1,0 +1,139 @@
+﻿<h1>test</h1>
+<div class="d-flex flex-column-fluid mt-n15">
+	<div class="container">
+		<div class="card card-custom gutter-b">
+			<div class="card-body">
+				<div id="FilterSection">
+
+					<div class="separator separator-solid mt-4 mb-0"> </div>
+					<div class="card-body" id="Part1div">
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Total Pending Tasks</h5>
+								<canvas id="myPieChart2"></canvas>
+							</div>
+							<div class="col-md-5">
+								<h5>Total In Progress Tasks</h5>
+								<canvas id="myPieChart1"></canvas>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="card-body" id="Part2div">
+						<div class="row">
+							<div class="col-md-5">
+								<h5>All Status Tasks</h5>
+								<canvas id="myPieChart"></canvas>
+							</div>
+
+							<div class="col-md-7">
+								<h5>Total Completed Tasks</h5>
+								<div class="table-responsive">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body" id="Part3div">
+						<div class="col-md-12">
+							<h5>Final Tasks Score</h5>
+							<table class="table" style="outline-color:black">
+								<thead>
+									<tr style="background-color: #b8b8b6; width: 60px; color:#fff; ">
+										<th style="background-color: #3699ff ">
+
+										</th>
+										<th style=" background-color: #3da31d; font-weight: bold; text-align:right;">
+											Low
+										</th>
+										<th style="background-color: #fbbd00; font-weight: bold; text-align:right; ">
+											Medium
+										</th>
+										<th style="background-color: #fb0000; font-weight: bold; text-align:right; ">
+											High
+										</th>
+									</tr>
+								</thead>
+								<tbody align="center" data-bind="with: FinalScores">
+									<tr>
+										<td> Task Weight</td>
+										<td class="text-right">1% </td>
+										<td class="text-right">	50%</td>
+										<td class="text-right"> 100% </td>
+									</tr>
+									<tr>
+										<td>Task Rating</td>
+										<td class="text-right">@* @Model.FinalScore.Green</td> *@
+										<td class="text-right">@* @Model.FinalScore.Amber</td> *@
+										<td class="text-right">@* @Model.FinalScore.Red</td> *@
+									</tr>
+									@*  <tr>
+                                        <td colspan="2" style="background-color: #d9d9d9; font-weight: bold ">Final Score</td>
+                                        <td colspan="2" class="text-right" style="font-weight: bold; background-color: @ViewBag.colorvalue ">@Model.FinalScore.FinalScoreValue</td>
+                                    </tr> *@
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts {
+	<script>
+		$(document).ready(function(){
+			//debugger;
+			//console.log('test');
+		var numberOfPendingTasks = 0;
+		var numberOfInProgressTasks = 0;
+		var numberOfCompletedTasks = 0;
+		$.ajax({
+				url: "/Dashboard/AllStatusTasks",
+				type: 'GET',
+				dataType: 'json',
+				success: function(res) {
+					// console.log(res);
+					numberOfPendingTasks= res.pendingtaskCount;
+					numberOfInProgressTasks= res.inProgresstaskCount;
+					numberOfCompletedTasks= res.completedtaskCount;
+					// console.log(numberOfPendingTasks);
+					// console.log(numberOfInProgressTasks);
+					// console.log(numberOfCompletedTasks);
+
+					var options = {
+							responsive: true,
+							plugins: {
+								legend: {
+									display: true,
+									position: "bottom",
+									labels: {
+										color: "#333",
+										font: { size: 16 },
+										boxWidth: 10,
+									}
+								}
+							}
+						};
+					var test = document.getElementById("myPieChart").getContext('2d');
+					var myPieChart = new Chart(test, {
+					type: 'pie',
+					data: {
+						labels: ["Pending", "In Progress", "Completed"],
+						datasets: [{
+							backgroundColor: ["#fb0000", "#fbbd00", "#3da31d"],
+							data: [numberOfPendingTasks, numberOfInProgressTasks, numberOfCompletedTasks] 
+						}]
+					},
+					options: options
+				});
+				},
+				error:function(xhr,status,error)
+				{
+					console.error("Error fetching all tasks", status, error);
+				}
+			});
+		});
+	</script>
+}

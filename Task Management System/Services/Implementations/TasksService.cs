@@ -39,7 +39,7 @@ namespace Task_Management_System.Services.Implementations
             }
         }
 
-        public async Task<IEnumerable<TasksWithStatus>> GetAllTasksWithStatus(string? filterOn = null, string? filterQuery = null)
+        public async Task<IEnumerable<TasksWithStatus>> GetAllTasksWithStatus()
         {
             using (var connection = _context.CreateConnection())
             {
