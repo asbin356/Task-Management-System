@@ -4,7 +4,7 @@ namespace Task_Management_System.Services
 {
     public interface ITasksService
     {
-        Task<IEnumerable<TasksWithStatus>> GetAllTasksWithStatus();
+        Task<IEnumerable<TasksWithStatus>> GetAllTasksWithStatus(string? filterOn= null, string? filterQuery = null);
         Task<TasksWithStatus> GetTasksByIdAsync(int id);
         Task AddTasksAsync(TasksWithStatus tasksWithStatus);
         Task UpdateTasksAsync(TasksWithStatus tasksWithStatus);

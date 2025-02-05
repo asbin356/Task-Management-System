@@ -21,7 +21,8 @@ namespace Task_Management_System.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> GetAllTasks()
+        //GET:/tasks/TasksWithStatus?filterOn=Title&filterQuery=Status
+        public async Task<IActionResult> GetAllTasks([FromQuery]string? filterOn, [FromQuery]string? filterQuery)
         {
             var alltasks = await _tasksService.GetAllTasksWithStatus();
             return View(alltasks);

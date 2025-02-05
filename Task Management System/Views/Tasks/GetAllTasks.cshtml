@@ -3,13 +3,37 @@
 @{
 	ViewData["Title"] = "Index";
 }
-
-<h1>Tasks</h1>
+<h1>List of Tasks</h1>
 
 <p>
 	<a asp-action="Create" class="btn btn-info">Add New Task</a>
 </p>
-<table class="table">
+
+<div class="navbar navbar-light px-3" style="background-color: #e3f2fd;">
+	<div class="d-flex align-items-center gap-3">
+		<div class="d-flex flex-column">
+			<label for="select1" class="fw-bold">Status</label>
+			<select class="form-control" style="width: 200px;" id="select1">
+				<option value="">All</option>
+				<option value="Pending">Pending</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Completed">Completed</option>
+			</select>
+		</div>
+
+		<div class="d-flex flex-column">
+			<label for="titleSearch" class="fw-bold">Title</label>
+			<input class="form-control" id="titleSearch" style="width: 200px;" type="text" placeholder="Search Title">
+		</div>
+
+		<div class="d-flex align-items-end">
+			<button class="btn btn-primary" id="clearSearch">Clear</button>
+		</div>
+	</div>
+</div>
+
+
+<table class="table" id="Task_tbl">
 	<thead>
 		<tr>
 			<th>
@@ -63,3 +87,28 @@
 		}
 	</tbody>
 </table>
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			var dtable = $('#Task_tbl').DataTable();
+
+			// Title search filter
+			$('#titleSearch').on('keyup', function () {
+				dtable.column(1).search(this.value).draw(); // Column index 1 is "Title"
+			});
+
+			//clear title and reset datatable
+			$('button').on('click',function(){
+				$('#titleSearch').val('');
+				 dtable.column(1).search('').draw();
+			});
+
+			//select status
+			$('select').on('change', function(){
+				var selectedValue = $(this).val();
+				console.log(selectedValue);
+				dtable.column(3).search(selectedValue).draw();
+			});
+		});
+	</script>
+}
