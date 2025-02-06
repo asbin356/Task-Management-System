@@ -15,6 +15,7 @@ namespace Task_Management_System
             builder.Services.AddScoped<DapperContext>(provider => new DapperContext(connectionString));
             builder.Services.AddScoped<ITasksService, TasksService>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<DataSeeder>();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Console()
@@ -37,6 +38,8 @@ namespace Task_Management_System
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+             
+            DataSeeding(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -50,6 +53,15 @@ namespace Task_Management_System
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+        }
+
+        private static async void DataSeeding(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var dsObject = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+                await dsObject.SeedDataAsync();
+            }
         }
     }
 }
