@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using Task_Management_System.Data;
 using Task_Management_System.Services;
@@ -17,6 +18,12 @@ namespace Task_Management_System
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<DataSeeder>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Accounts/Login";
+                    options.LogoutPath = "/Accounts/Logout";
+                });
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Console()

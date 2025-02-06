@@ -60,11 +60,14 @@ namespace Task_Management_System.Controllers
                     var authProperties = new AuthenticationProperties();
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimIdentity), authProperties);
+                    return RedirectToAction("Index", "Home");
                 }
-                //if the user is null
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempts");
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempts");
+                }
             }
-            return View();
+            return View(model);
         }
 
     }
