@@ -9,5 +9,6 @@ namespace Task_Management_System.Services
         Task<IEnumerable<string>> GetUserRolesAsync(int userId);
         bool IsAuthenticated();
         string GetUserName();
+        int GetUserId();
     }
 }

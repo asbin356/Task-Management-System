@@ -53,7 +53,8 @@ namespace Task_Management_System.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,user.Username),
-                        new Claim(ClaimTypes.Email,user.Email)
+                        new Claim(ClaimTypes.Email,user.Email),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                     };
                     foreach (var role in roles)
                     {

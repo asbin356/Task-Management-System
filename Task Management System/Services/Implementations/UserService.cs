@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Security.Claims;
+using Dapper;
 using Task_Management_System.Data;
 using Task_Management_System.ViewModels.AccountsViewModels;
 
@@ -33,6 +34,14 @@ namespace Task_Management_System.Services.Implementations
                 }
                 return null;
             }
+        }
+
+        public int GetUserId()
+        {
+            //Note: In NameIdentifier we can store Id during the login process
+            var userIdClaim = _contextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            return userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
         }
 
         public string GetUserName()
