@@ -23,6 +23,7 @@ namespace Task_Management_System
                 {
                     options.LoginPath = "/Accounts/Login";
                     options.LogoutPath = "/Accounts/Logout";
+                    options.LogoutPath = "/Accounts/AccessDenied";
                 });
 
             var logger = new LoggerConfiguration()

@@ -1,19 +1,23 @@
 ﻿@using Task_Management_System.Services
 @inject IUserService _userService
 
-@if (_userService.IsAuthenticated())
-{
-	<div>
-		<span>Welcome, @_userService.GetUserName()!</span>
-		<form asp-controller="Accounts" asp-action="Logout" method="post" id="logoutForm" class="form-inline">
-			<button type="submit" class="btn btn-Link">Logout</button>
-		</form>
-	</div>
-}
-else
-{
-	<div>
-		<a href="/Accounts/Login">Login</a>
-		<a href="/Accounts/Register">Register</a>
-	</div>
-}
+<ul class="navbar-nav">
+	@if (_userService.IsAuthenticated())
+	{
+		<li class="nav-item">Welcome, @_userService.GetUserName()!</li>
+		<li class="nav-item">
+			<form asp-controller="Accounts" asp-action="Logout" method="post" id="logoutForm" class="form-inline">
+				<button type="submit" class="btn btn-Link">Logout</button>
+			</form>
+		</li>
+	}
+	else
+	{
+		<li class="nav-item">
+			<a class="nav-link" href="/Accounts/Login">Login</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Accounts/Register">Register</a>
+		</li>
+	}
+</ul>

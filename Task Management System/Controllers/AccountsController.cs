@@ -19,6 +19,10 @@ namespace Task_Management_System.Controllers
             _userService = userService;
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         [HttpGet]
         public async Task<IActionResult> Register()
         {
