@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="d-flex align-items-end">
-			<button class="btn btn-primary" id="clearSearch">Clear</button>
+			<button class="btn btn-info" id="clearSearch">Clear</button>
 		</div>
 	</div>
 </div>
@@ -80,8 +80,10 @@
 					@Html.DisplayFor(modelItem => item.DueDate)
 				</td>
 				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+
 				</td>
 			</tr>
 		}

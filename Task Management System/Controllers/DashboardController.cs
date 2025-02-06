@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Task_Management_System.Filters;
 using Task_Management_System.Services;
 
 namespace Task_Management_System.Controllers
 {
+    [RoleAuthorize("Employee", "Admin")]
     public class DashboardController : Controller
     {
         private readonly ITasksService _tasksService;

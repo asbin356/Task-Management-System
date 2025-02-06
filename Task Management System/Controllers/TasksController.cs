@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Task_Management_System.Filters;
 using Task_Management_System.Models;
 using Task_Management_System.Services;
 
 namespace Task_Management_System.Controllers
 {
+    [RoleAuthorize("Admin")]
     public class TasksController : Controller
     {
         private readonly ITasksService _tasksService;
