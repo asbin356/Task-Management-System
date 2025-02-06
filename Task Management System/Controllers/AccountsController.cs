@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Task_Management_System.Filters;
 using Task_Management_System.Services;
 using Task_Management_System.ViewModels.AccountsViewModels;
 
@@ -10,6 +11,8 @@ namespace Task_Management_System.Controllers
     /// <summary>
     /// In AccountsController we will be creating a login and register methods
     /// </summary>
+    /// 
+    [RoleAuthorize("Admin")]
     public class AccountsController : Controller
     {
         private IUserService _userService;
