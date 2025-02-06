@@ -49,11 +49,16 @@ namespace Task_Management_System.Controllers
                     (model.Username, model.Password);
                 if (user != null)
                 {
+                    var roles = await _userService.GetUserRolesAsync(user.Id);
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,user.Username),
                         new Claim(ClaimTypes.Email,user.Email)
                     };
+                    foreach (var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
 
                     var claimIdentity = new ClaimsIdentity
                         (claims, CookieAuthenticationDefaults.AuthenticationScheme);
