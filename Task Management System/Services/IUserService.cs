@@ -6,5 +6,7 @@ namespace Task_Management_System.Services
     {
         Task<AppUser> AuthenticateUserAsync(string username, string password);
         Task RegisterUserAsync(RegisterViewModel model);
+        bool IsAuthenticated();
+        string GetUserName();
     }
 }

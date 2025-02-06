@@ -16,6 +16,7 @@ namespace Task_Management_System
             builder.Services.AddScoped<ITasksService, TasksService>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<DataSeeder>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.Console()
@@ -38,7 +39,7 @@ namespace Task_Management_System
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-             
+
             DataSeeding(app);
 
             app.UseHttpsRedirection();
