@@ -1,9 +1,14 @@
-﻿<h1>test</h1>
+﻿
+<div class="m-1 form-group">
+	<a class="btn btn-success" id="btnPieChartDownload" data-value="">Download</a>
+</div>
 <div class="d-flex flex-column-fluid mt-n15">
-	<div class="container">
+	<div class="container" id="exportTopdf">
 		<div class="card card-custom gutter-b">
+
 			<div class="card-body">
 				<div id="FilterSection">
+					<h1 align="center">Task Status Report</h1>
 
 					<div class="separator separator-solid mt-4 mb-0"> </div>
 					<div class="card-body" id="Part1div">
@@ -17,7 +22,8 @@
 								<canvas id="myPieChart2"></canvas>
 							</div>
 						</div>
-
+						<div class="modal-footer">
+						</div>
 					</div>
 
 					<div class="card-body" id="Part2div">
@@ -73,7 +79,7 @@
 @section Scripts {
 	<script>
 		$(document).ready(function(){
-			//debugger;
+			debugger;
 			//console.log('test');
 		var numberOfPendingTasks = 0;
 		var numberOfInProgressTasks = 0;
@@ -124,7 +130,7 @@
 						var myPieChart = new Chart(test, {
 							type: 'pie',
 							data: {
-								labels: ["Pending"],
+								labels: ["Pending",numberOfPendingTasks],
 								datasets: [{
 									backgroundColor: ["#fb0000"],
 									data: [numberOfPendingTasks]
@@ -138,7 +144,7 @@
 						var myPieChart = new Chart(test, {
 							type: 'pie',
 							data: {
-								labels: ["In Progress"],
+								labels: ["In Progress",numberOfInProgressTasks],
 								datasets: [{
 									backgroundColor: ["#fbbd00"],
 									data: [numberOfInProgressTasks]
@@ -152,7 +158,7 @@
 						var myPieChart = new Chart(test, {
 							type: 'pie',
 							data: {
-								labels: ["Completed"],
+								labels: ["Completed",numberOfCompletedTasks],
 								datasets: [{
 									backgroundColor: ["#3da31d"],
 									data: [numberOfCompletedTasks]
@@ -167,5 +173,21 @@
 				}
 			});
 		});
+
+		$('#btnPieChartDownload').click(function (e) {
+			var pieChartTitle = e.target.getAttribute("data-value");
+			var divToExport = document.getElementById('exportTopdf');
+
+			html2canvas(divToExport).then(function (canvas) {
+				var imgData = canvas.toDataURL('image/jpeg');
+
+				var link = document.createElement('a');
+				link.href = imgData;
+				link.download = `${pieChartTitle} ${new Date().toJSON().slice(0, 10)}.jpg`;
+				link.click();
+			});
+		});
 	</script>
+	<script src="~/js/jspdf.umd.min.js"></script>
+	<script src="~/js/html2canvas.min.js"></script>
 }
