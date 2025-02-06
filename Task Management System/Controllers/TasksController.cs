@@ -35,7 +35,7 @@ namespace Task_Management_System.Controllers
         {
             return View();
         }
-        //GET:/tasks/TasksWithStatus?filterOn=Title&filterQuery=Status
+     
         public async Task<IActionResult> GetAllTasks()
         {
             try
@@ -62,7 +62,7 @@ namespace Task_Management_System.Controllers
             try
             {
                 await _tasksService.AddTasksAsync(tasksWithStatus);
-                return RedirectToAction("Index");
+                return RedirectToAction("GetAllTasks");
 
             }
             catch (Exception ex)

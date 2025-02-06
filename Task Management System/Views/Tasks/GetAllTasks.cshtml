@@ -80,7 +80,6 @@
 					@Html.DisplayFor(modelItem => item.DueDate)
 				</td>
 				<td>
-
 					@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
 					@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
 
@@ -111,6 +110,8 @@
 				console.log(selectedValue);
 				dtable.column(3).search(selectedValue).draw();
 			});
+
+
 		});
 	</script>
 }

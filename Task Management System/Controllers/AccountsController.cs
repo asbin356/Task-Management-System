@@ -12,7 +12,6 @@ namespace Task_Management_System.Controllers
     /// In AccountsController we will be creating a login and register methods
     /// </summary>
     /// 
-    [RoleAuthorize("Admin")]
     public class AccountsController : Controller
     {
         private IUserService _userService;
