@@ -40,6 +40,19 @@ namespace Task_Management_System.Services.Implementations
             return _contextAccessor.HttpContext.User.Identity.Name;
         }
 
+        public async Task<IEnumerable<string>> GetUserRolesAsync(int userId)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                var roles = await connection.QueryAsync<string>(
+                    "spGetUserRoles",
+                    new { UserId = userId },
+                    commandType: System.Data.CommandType.StoredProcedure
+                    );
+                return roles;
+            }
+        }
+
         public bool IsAuthenticated()
         {
             return _contextAccessor.HttpContext.User.Identity.IsAuthenticated;
