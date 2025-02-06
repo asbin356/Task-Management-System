@@ -1,3 +1,4 @@
+using Serilog;
 using Task_Management_System.Data;
 using Task_Management_System.Services;
 using Task_Management_System.Services.Implementations;
@@ -14,6 +15,15 @@ namespace Task_Management_System
             builder.Services.AddScoped<DapperContext>(provider => new DapperContext(connectionString));
             builder.Services.AddScoped<ITasksService, TasksService>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/TMS_logs.txt", rollingInterval: RollingInterval.Minute)
+                .MinimumLevel.Warning()
+                .CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Services.AddSerilog(logger);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

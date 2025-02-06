@@ -18,8 +18,17 @@ namespace Task_Management_System.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var alltasks = await _tasksService.GetAllTasksWithStatus();
-            return View(alltasks);
+            try
+            {
+                var alltasks = await _tasksService.GetAllTasksWithStatus();
+                return View(alltasks);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         public IActionResult Privacy()

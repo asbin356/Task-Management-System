@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Task_Management_System.Models;
 using Task_Management_System.Services;
 
@@ -7,15 +8,26 @@ namespace Task_Management_System.Controllers
     public class TasksController : Controller
     {
         private readonly ITasksService _tasksService;
+        private readonly ILogger<TasksController> _logger;
 
-        public TasksController(ITasksService tasksService)
+        public TasksController(ITasksService tasksService, ILogger<TasksController> logger)
         {
             _tasksService = tasksService;
+            _logger = logger;
         }
         public async Task<IActionResult> AllTasks()
         {
-            var alltasks = await _tasksService.GetAllTasksWithStatus();
-            return Json(new { data = alltasks });
+            try
+            {
+                var alltasks = await _tasksService.GetAllTasksWithStatus();
+                return Json(new { data = alltasks });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
         public IActionResult Index()
         {
@@ -24,8 +36,17 @@ namespace Task_Management_System.Controllers
         //GET:/tasks/TasksWithStatus?filterOn=Title&filterQuery=Status
         public async Task<IActionResult> GetAllTasks()
         {
-            var alltasks = await _tasksService.GetAllTasksWithStatus();
-            return View(alltasks);
+            try
+            {
+                var alltasks = await _tasksService.GetAllTasksWithStatus();
+                return View(alltasks);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
         [HttpGet]
         public IActionResult Create()
@@ -36,29 +57,65 @@ namespace Task_Management_System.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(TasksWithStatus tasksWithStatus)
         {
-            await _tasksService.AddTasksAsync(tasksWithStatus);
-            return RedirectToAction("Index");
+            try
+            {
+                await _tasksService.AddTasksAsync(tasksWithStatus);
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var alltasks = await _tasksService.GetTasksByIdAsync(id);
-            return View(alltasks);
+            try
+            {
+                var alltasks = await _tasksService.GetTasksByIdAsync(id);
+                return View(alltasks);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(TasksWithStatus tasksWithStatus)
         {
-            await _tasksService.UpdateTasksAsync(tasksWithStatus);
-            return RedirectToAction("Index");
+            try
+            {
+                await _tasksService.UpdateTasksAsync(tasksWithStatus);
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            await _tasksService.DeleteTasksAsync(id);
-            return RedirectToAction("Index");
+            try
+            {
+                await _tasksService.DeleteTasksAsync(id);
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }
