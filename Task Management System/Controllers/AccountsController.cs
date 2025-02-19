@@ -15,10 +15,34 @@ namespace Task_Management_System.Controllers
     public class AccountsController : Controller
     {
         private IUserService _userService;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(IUserService userService)
+        public AccountsController(IUserService userService, ILogger<AccountsController> logger)
         {
             _userService = userService;
+            _logger = logger;
+        }
+        public async Task<IActionResult> Index(string email, string username)
+        {
+            IEnumerable<AppUser> users = new List<AppUser>();
+
+            users = await _userService.GetUsersByFilterAsync(email, username);
+
+            return View(users);
+        }
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var allusers = await _userService.GetAllUsers();
+                return View(allusers);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         public IActionResult AccessDenied()

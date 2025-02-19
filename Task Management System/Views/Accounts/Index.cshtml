@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Task_Management_System.ViewModels.AccountsViewModels.AppUser>
+
+<form method="get" asp-controller="Accounts" asp-action="Index">
+	<input type="email" name="email" placeholder="Enter email" />
+	<input type="text" name="username" placeholder="Enter username" />
+	<button type="submit">Search</button>
+</form>
+
+<table class="table table-striped table-bordered table-hover table-sm table-responsive mt-3">
+	<thead>
+		<tr>
+			<th>UserId</th>
+			<th>Username</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var users in Model)
+		{
+			<tr>
+				<td>@users.Id</td>
+				<td>@users.Username</td>
+				<td>@users.Email</td>
+			</tr>
+		}
+	</tbody>
+</table>
