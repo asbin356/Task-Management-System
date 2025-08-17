@@ -1,7 +1,7 @@
 TaskManagementSystem with Dapper
 SETUP INSTRUCTIONS:
 1. with git bash clone the git repo from https://github.com/asbin356/Task-Management-System
-2. create database with the sql Script given as attachment.
+2. create database with the sql Script given as attachment.https://github.com/asbin356/Task-Management-System/blob/master/TMSscript.sql
 
 After Application run
 Login: admin@gmail.com
